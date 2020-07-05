@@ -1,2 +1,3 @@
-# music-editor
-a music editor website
+# musical edtior
+
+a musical editor website
