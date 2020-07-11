@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classes from './PlayMusic.module.css'
 
 class PlayMusic extends Component {
   state = {
@@ -21,7 +22,7 @@ class PlayMusic extends Component {
 
     // delay is added because when referencing .duration of the Audio element
     // it will be NaN, sometime needs to be waited
-    const RANDOM_DELAY_FOR_AUDIO_TO_LOAD = 10;
+    const RANDOM_DELAY_FOR_AUDIO_TO_LOAD = 30;
     setTimeout(() => {
       this.setState({
         musicToPlay: musicToplayCopy
@@ -32,7 +33,7 @@ class PlayMusic extends Component {
   playNotes = () => {
     let duration = 0;
     this.state.musicToPlay.forEach((musicalNote, index) => {
-        if (index == 0) {
+        if (index === 0) {
           setTimeout(function () {
             musicalNote.play();
           }, 0)
@@ -47,15 +48,40 @@ class PlayMusic extends Component {
       })
   }
 
+  createTimeBar = () => {
+    const ONE_SECOND_IN_VIEW_WIDTH= 10;
+    let secondsToDom = [];
+
+    const defaultAmountOfSecondToDisplay = 40;
+    for (let i = 0; i < defaultAmountOfSecondToDisplay; i++) {
+      let divWidth = {
+        width: ONE_SECOND_IN_VIEW_WIDTH + 'vw'
+      }
+
+      let secondsDiv = (
+        <div className={classes['time-block']} style={divWidth}>
+          { i + 1 }
+        </div>
+      )
+      secondsToDom.push(secondsDiv);
+    }
+
+    return secondsToDom;
+  }
+
   render() {
 
-    console.log(this.state.musicToPlay)
     let currentlyPlaying = (null);
 
+    let secondsToDom = this.createTimeBar();
+
     currentlyPlaying = this.state.musicToPlay.map(function (audio) {
-      console.log(audio.getAttribute('data-name'));
+      let divWidth = {
+        width: audio.duration * 10 + 'vw',
+      }
+      
       return (
-        <div>
+        <div className={classes['music-blocks__block']} style={divWidth}>
           <p>
             {audio.getAttribute('data-name')}
           </p>
@@ -68,9 +94,16 @@ class PlayMusic extends Component {
 
     return (
       <div>
-        <div>
-          {currentlyPlaying }
+        <div id={classes['time-tracker']}>
+          <div className={classes['music-blocks']}>
+            {currentlyPlaying}
+          </div>
+
+          <div className={classes['time-bar']} id="time">
+            {secondsToDom}
+          </div>
         </div>
+
         <p onClick={this.playNotes}>
           play notes
         </p>
