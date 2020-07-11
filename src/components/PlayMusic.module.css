@@ -1,0 +1,24 @@
+#time-tracker {
+  overflow-x: scroll;
+}
+
+.time-bar {
+  display: flex;
+  text-align: right;
+}
+
+
+.time-block {
+  flex: 0 0 auto;
+}
+
+.music-blocks {
+  display: flex;
+}
+
+.music-blocks__block {
+  flex: 0 0 auto;
+
+  background-color: #eee;
+  border: 1px solid #333;
+}
